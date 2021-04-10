@@ -20,6 +20,7 @@ interface Point {
 type Direction = null | "Up" | "Down" | "Left" | "Right";
 
 interface SwipeInfo {
+    start: Point;
     direction: Direction;
     distance: number;
     target: number;
@@ -36,8 +37,8 @@ export function swipeable(node, options:SwipeOptions) {
     let touch;
 
     // State vars
-    const start:Point = { x: 0, y: 0 };
     const swipe:SwipeInfo = {
+        start: { x: 0, y: 0 },
         direction: null,
         distance: 0,
         target: 0,
@@ -54,11 +55,11 @@ export function swipeable(node, options:SwipeOptions) {
         console.debug("Swipe start");
 
         touch = event.touches[0];
-		start.x = touch.pageX;
-		start.y = touch.pageY;
+		swipe.start.x = touch.pageX;
+		swipe.start.y = touch.pageY;
 
         node.dispatchEvent(new CustomEvent('swipeStart', {
-			detail: { ...start }
+			detail: { ...swipe.start }
 		}));
 
 		window.addEventListener('touchmove', handleMove);
@@ -69,8 +70,8 @@ export function swipeable(node, options:SwipeOptions) {
         event.stopPropagation();
 
         touch = event.touches[0];
-		swipe.dx = touch.pageX - start.x;
-		swipe.dy = touch.pageY - start.y;
+		swipe.dx = touch.pageX - swipe.start.x;
+		swipe.dy = touch.pageY - swipe.start.y;
         swipe.distance = Math.sqrt(swipe.dx**2 + swipe.dy**2);
 
         // Determine direction if any
