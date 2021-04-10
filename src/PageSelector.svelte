@@ -13,14 +13,14 @@
     let dragging = false;
 
     const swipeOptions = {
-		start: 15,
+		minSwipe: 15,
 		target: {
-			up: 150,
-			down: 70,
+			up: 100,
+			down: 50,
 			left: 80,
 			right: 80,
 		},
-		ratio: 2,
+		ratio: 3,
 	}
 
     function handleSwipeLeft(e) {

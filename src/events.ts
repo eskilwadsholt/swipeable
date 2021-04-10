@@ -1,48 +1,64 @@
 interface SwipeOptions {
-    start:number;
+    /* Number of pixels before swipe is activated */
+    minSwipe: number;
+    /* Targets in pixels for the four swipe directions */
     target:{
-        up:number;
-        down:number;
-        left:number;
-        right:number
+        up: number;
+        down: number;
+        left: number;
+        right: number
     };
-    ratio:number;
+    /* Direction is activated when moving more than ratio times the perpendicular direction */
+    ratio: number;
 }
 
-enum Direction {
-    Unset, None, Up, Down, Left, Right
+interface Point {
+    x: number;
+    y: number;
 }
 
-export function clamp(val, min, max) {
-    if (val < min) return min;
-    if (val > max) return max;
-    return val;
+type Direction = null | "Up" | "Down" | "Left" | "Right";
+
+interface SwipeInfo {
+    direction: Direction;
+    distance: number;
+    target: number;
+    dx: number;
+    dy: number;
+    drag: number;
+    progress: number;
+    clampedDrag: number;
+    clampedProgress: number;
 }
 
 export function swipeable(node, options:SwipeOptions) {
-    let direction = Direction.Unset;
+    // Resuable var
     let touch;
-    let startX;
-	let startY;
-    let dragX;
-    let dragY;
-    let drag;
-    let clampedDrag;
-    let dir;
-    let target;
-    let dist;
-    let detail;
+
+    // State vars
+    const start:Point = { x: 0, y: 0 };
+    const swipe:SwipeInfo = {
+        direction: null,
+        distance: 0,
+        target: 0,
+        dx: 0,
+        dy: 0,
+        drag: 0,
+        progress: 0,
+        clampedDrag: 0,
+        clampedProgress: 0,
+    };
 
 	function handleStart(event) {
         event.stopPropagation();
         console.debug("Swipe start");
 
         touch = event.touches[0];
-		startX = touch.pageX;
-		startY = touch.pageY;
+		start.x = touch.pageX;
+		start.y = touch.pageY;
 
         node.dispatchEvent(new CustomEvent('swipeStart', {
-			detail: { dir: "None", x: startX, y: startY }
+			detail: { ...start }
 		}));
 
 		window.addEventListener('touchmove', handleMove);
@@ -53,76 +69,69 @@ export function swipeable(node, options:SwipeOptions) {
         event.stopPropagation();
 
         touch = event.touches[0];
-		dragX = touch.pageX - startX;
-		dragY = touch.pageY - startY;
-        dist = Math.sqrt(dragX**2 + dragY**2);
+		swipe.dx = touch.pageX - start.x;
+		swipe.dy = touch.pageY - start.y;
+        swipe.distance = Math.sqrt(swipe.dx**2 + swipe.dy**2);
 
         // Determine direction if any
-        if (direction == Direction.Unset) {
-            if (dist > options.start) {
-                if (Math.abs(dragY) > options.ratio * Math.abs(dragX)) {
-                    if (dragY < 0) direction = Direction.Up;
-                    else direction = Direction.Down;
-                } else if (Math.abs(dragX) > options.ratio * Math.abs(dragY)) {
-                    if (dragX < 0) direction = Direction.Left;
-                    else direction = Direction.Right;
-                } else {
-                    direction = Direction.None;
+        if (!swipe.direction && swipe.distance > options.minSwipe) {
+            if (Math.abs(swipe.dy) > options.ratio * Math.abs(swipe.dx)) {
+                if (swipe.dy < 0) {
+                    swipe.direction = "Up";
+                    swipe.target = options.target.up;
+                }
+                else {
+                    swipe.direction = "Down";
+                    swipe.target = options.target.down;
+                }
+            } else if (Math.abs(swipe.dx) > options.ratio * Math.abs(swipe.dy)) {
+                if (swipe.dx < 0) {
+                    swipe.direction = "Left";
+                    swipe.target = options.target.left;
+                }
+                else {
+                    swipe.direction = "Right";
+                    swipe.target = options.target.right;
                 }
             }
         }
 
-        // Prepare details if direction has been determined
-        switch (direction) {
-            case Direction.Up: {
-                dir = "Up";
-                drag = -dragY;
-                target = options.target.up;
-                clampedDrag = clamp(drag, 0, target);
+        // Update drag variable if direction is activated
+        switch (swipe.direction) {
+            case "Up": {
+                swipe.drag = -swipe.dy;
                 break;
             }
-            case Direction.Down: {
-                dir = "Down";
-                drag = dragY;
-                target = options.target.down;
-                clampedDrag = clamp(drag, 0, target);
+            case "Down": {
+                swipe.drag = swipe.dy;
                 break;
             }
-            case Direction.Left: {
-                dir = "Left";
-                drag = -dragX;
-                target = options.target.left;
-                clampedDrag = clamp(drag, 0, target);
+            case "Left": {
+                swipe.drag = -swipe.dx;
                 break;
             }
-            case Direction.Right: {
-                dir = "Right";
-                drag = dragX;
-                target = options.target.right;
-                clampedDrag = clamp(drag, 0, target);
+            case "Right": {
+                swipe.drag = swipe.dx;
                 break;
             }
         }
 
-        if (direction != Direction.Unset && direction != Direction.None) {
+        // Dispatch event with swipe info if direction is activated
+        if (swipe.direction) {
+            // Update swipe progress vars
+            swipe.progress = swipe.drag / swipe.target;
+            swipe.clampedDrag = clamp(swipe.drag, 0, swipe.target);
+            swipe.clampedProgress = clamp(swipe.progress, 0, 1);
 
-            // Pack details
-            detail = {
-                dir,
-                drag,
-                progress: drag / target,
-                clampedDrag,
-                clampedProgress: clampedDrag / target,
-            }
-
-            node.dispatchEvent(new CustomEvent("swipe" + detail.dir, { detail }));
+            // Dispatch either swipeUp, swipeDown, swipeLeft or swipeRight based on swipe.direction
+            node.dispatchEvent(new CustomEvent("swipe" + swipe.direction, { detail: swipe }));
         }
     }
 
     function handleEnd(event) {
         event.stopPropagation();
-        direction = Direction.Unset;
 
+        swipe.direction = null;
         node.dispatchEvent(new CustomEvent("swipeEnd"));
 
         window.removeEventListener("touchmove", handleMove);
@@ -136,4 +145,10 @@ export function swipeable(node, options:SwipeOptions) {
 			node.removeEventListener('touchstart', handleStart);
 		}
 	};
+}
+
+export function clamp(val: number, min: number, max: number): number {
+    if (val < min) return min;
+    if (val > max) return max;
+    return val;
 }

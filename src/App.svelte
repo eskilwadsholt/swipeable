@@ -32,7 +32,7 @@ function handleForwardEnd(e) {
 
 <style>
 	.overlay {
-		position: fixed;
+		position: absolute;
 		width: 100%;
 		bottom: 50%;
 		display: flex;
