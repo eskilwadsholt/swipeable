@@ -6,7 +6,9 @@
 
 <ColorPage>
     <div class="subpages">
-        <PageSelector on:forwardUp on:forwardEnd ID="inner" pages={[
+        <PageSelector on:swipeUp on:swipeEnd
+            ID="small PageSelector"
+            pages={[
             ColorPage, ColorPage
         ]}/>
     </div>

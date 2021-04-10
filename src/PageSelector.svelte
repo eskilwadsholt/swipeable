@@ -38,14 +38,14 @@
     }
 
     function handeSwipeEnd(e) {
-        dispatch("forwardEnd");
+        dispatch("swipeEnd");
         dragging = false;
         currentPage = newPage;
         drag = 0;
     }
 
     function handleSwipeUp(e) {
-        dispatch("forwardUp", { ...e.detail });
+        dispatch("swipeUp", { ...e.detail });
         console.debug(`${ID}: ${JSON.stringify(e.detail)}`);
     }
 </script>
@@ -65,7 +65,7 @@
     </div>
     {#each pages as page, i}
         <div class="page" style={`left:calc(${(i - currentPage) * 100}% + ${drag}px)`}>
-            <svelte:component this={page} on:forwardUp={handleSwipeUp} on:forwardEnd={handeSwipeEnd}/>
+            <svelte:component this={page} on:swipeUp on:swipeEnd/>
         </div>
     {/each}
 </main>

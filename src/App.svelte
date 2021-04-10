@@ -1,28 +1,30 @@
 <script lang="ts">
-import ColorPage from "./ColorPage.svelte";
-import PageSelector from "./PageSelector.svelte";
-import ParentColorPage from "./ParentColorPage.svelte";
+	import ColorPage from "./ColorPage.svelte";
+	import PageSelector from "./PageSelector.svelte";
+	import ParentColorPage from "./ParentColorPage.svelte";
 
-let activated = false;
+	let activated = false;
 
-let height = 0;
-let percent = "0%";
+	let height = 0;
+	let percent = "0%";
 
-function handleForwardUp(e) {
-	activated = true;
-	height = e.detail.clampedDrag;
-	percent = (e.detail.clampedProgress * 100).toFixed(0) + "%";
-}
+	function handleSwipeUp(e) {
+		activated = true;
+		height = e.detail.clampedDrag;
+		percent = (e.detail.clampedProgress * 100).toFixed(0) + "%";
+	}
 
-function handleForwardEnd(e) {
-	activated = false;
-	height = 0;
-	percent = "0%";
-}
+	function handleSwipeEnd(e) {
+		activated = false;
+		height = 0;
+		percent = "0%";
+	}
 </script>
 
 <main>
-	<PageSelector on:forwardUp={handleForwardUp} on:forwardEnd={handleForwardEnd} ID="outer" pages={[
+	<PageSelector on:swipeUp={handleSwipeUp} on:swipeEnd={handleSwipeEnd}
+		ID="LARGE PageSelector"
+		pages={[
 		ParentColorPage, ColorPage, ColorPage
 		]}/>
 	<div class="overlay" class:activated style={`height:${height}px`}>
