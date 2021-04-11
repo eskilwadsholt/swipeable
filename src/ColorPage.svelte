@@ -2,7 +2,7 @@
     import { randColor } from "./colors";    
 
     const { R, G, B } = randColor();
-    const color = `#${R}${G}${B}3`;
+    const color = `#${R}${G}${B}4`;
 </script>
 
 <page style={`background:${color}`}>

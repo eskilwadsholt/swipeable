@@ -56,8 +56,8 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		width: 375px;
-		height: 545px;
+		width: 100%;
+		height: 100%;
 		background: #666;
 		color: #FFF;
 		box-shadow: 0 0 5px #FFF;

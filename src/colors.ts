@@ -1,4 +1,4 @@
-const vals = "579BD".split('');
+const vals = "38D".split('');
 const colors:Color[] = [];
 
 interface Color {
@@ -16,6 +16,7 @@ vals.forEach(R => {
 })
 
 shuffle(colors);
+console.debug(`Number of colors: ${colors.length}`);
 
 export function randColor(): Color {
     if (colors.length > 0) return colors.pop();
