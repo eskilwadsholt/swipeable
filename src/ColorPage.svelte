@@ -1,28 +1,26 @@
 <script lang="ts">
-    function randInt(max:number):number {
-        return Math.floor(Math.random() * max);
-    }
+    import { randColor } from "./colors";    
 
-    let R = 80 + randInt(150);
-    let G = 80 + randInt(150);
-    let B = 80 + randInt(150);
-
-    const color = `rgba(${R},${G},${B},0.3)`;
+    const { R, G, B } = randColor();
+    const color = `#${R}${G}${B}3`;
 </script>
 
 <page style={`background:${color}`}>
     <div class="title">
         Color Page
     </div>
+    <div class="color-code">{color}</div>
     <slot></slot>
 </page>
 
 <style>
     .title {
+        font-size: 1.3em;
         color: black;
     }
 
     page {
+        position: relative;
         display: flex;
         flex-direction: column;
         justify-content: space-around;
