@@ -5,7 +5,7 @@
     const dispatch = createEventDispatcher();
 
     export let pages;
-    export let ID;
+    export let ID:string;
 
     let currentPage = 0;
     let drag = 0;
@@ -37,7 +37,7 @@
         console.debug(`${ID}: ${JSON.stringify(e.detail)}`);
     }
 
-    function handeSwipeEnd(e) {
+    function handeSwipeEnd() {
         dispatch("swipeEnd");
         dragging = false;
         currentPage = newPage;

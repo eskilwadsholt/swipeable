@@ -52,6 +52,7 @@ export function swipeable(node, options:SwipeOptions) {
 
 	function handleStart(event) {
         event.stopPropagation();
+        event.preventDefault();
         console.debug("Swipe start");
 
         touch = event.touches[0];
@@ -68,6 +69,7 @@ export function swipeable(node, options:SwipeOptions) {
 
     function handleMove(event) {
         event.stopPropagation();
+        event.preventDefault();
 
         touch = event.touches[0];
 		swipe.dx = touch.pageX - swipe.start.x;
@@ -131,6 +133,7 @@ export function swipeable(node, options:SwipeOptions) {
 
     function handleEnd(event) {
         event.stopPropagation();
+        event.preventDefault();
 
         swipe.direction = null;
         node.dispatchEvent(new CustomEvent("swipeEnd"));
