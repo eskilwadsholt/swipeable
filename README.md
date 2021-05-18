@@ -12,7 +12,7 @@ Here is a screenshot of a [live demo on Netlify](https://swipeable.netlify.app/)
 The swipeable event factory is found in the file [events.ts](./src/events.ts).
 
 ### Apply to Svelte component
-To apply the swipeable events `swipeStart`, `swipeEnd`, `swipeLeft`, `swipeRight`, `swipeUp`, and `swipeDown` to a Svelte component, one must first import it inside the script tags:
+To apply the swipeable events `swipeStart`, `swipeEnd`, `swipeLeft`, `swipeRight`, `swipeUp`, and `swipeDown` to a Svelte component, one must first import it inside the script tags, define options, and declare handler callbacks:
 ```typescript
 <script lang="ts">
     import { swipeable } from "./events";
