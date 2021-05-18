@@ -1,7 +1,7 @@
-## Swipeable (touch devices only)
+# Swipeable (touch devices only)
 This project is showcasing how to apply an event factory to a Svelte-component in order to control swipe events and event forwarding better.
 
-### Demo
+## Demo
 Here is a screenshot of a [live demo on Netlify](https://swipeable.netlify.app/)
 
 <p align=center>
