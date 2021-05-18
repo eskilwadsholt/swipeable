@@ -33,7 +33,7 @@ To apply the swipeable events `swipeStart`, `swipeEnd`, `swipeLeft`, `swipeRight
     }
 <script>
 ```
-and then apply to an JSX element using the `use` keyword from Svelte like so:
+and then apply to a JSX element using the `use` keyword from Svelte like so:
 ```Svelte
 <SomeComponent use:swipeable={swipeOptions} on:swipeStart={handleSwipeStart}>
     ...
