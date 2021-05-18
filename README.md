@@ -7,4 +7,4 @@ This project is showcasing how to apply an event factory to a Svelte-component i
 
 [screenshot]: screenshots/screenshot1.png "Screenshot from Swipeable Mobile app"
 
-[Screenshot from Swipeable Mobile app](screenshots/screenshot1.png)
+[Screenshot from Swipeable Mobile app](./screenshots/screenshot1.png)
