@@ -13,7 +13,7 @@ The swipeable event factory is found in the file [events.ts](./src/events.ts).
 
 ### Apply to Svelte component
 To apply the swipeable events `swipeStart`, `swipeEnd`, `swipeLeft`, `swipeRight`, `swipeUp`, and `swipeDown` to a Svelte component, one must first import it inside the script tags:
-```HTML
+```typescript
 <script lang="ts">
     import { swipeable } from "./events";
 
