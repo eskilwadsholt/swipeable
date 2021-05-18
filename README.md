@@ -43,7 +43,7 @@ and then apply to an JSX element using the `use` keyword from Svelte like so:
 ### Swipe options
 Here is an overview of the options one can set via the object `swipeOptions`:
 
- | Description
+** | Description
 --- | ---
 minSwipe | The minimum distance in pixels before on of the four directional swipeevents `swipeX` for `X=Up,Down,Left,Right` is potentially activated. Note that `ratio` also plays a role in activation
 target | Sets how many pixels in each of the four directions `up,down,left,right` is the target distance to fully activate the swipe in the given direction
@@ -52,7 +52,7 @@ ratio | This sets the ratio between swiping vertically and swiping horizontally 
 ### Event details
 For the four directional events, `swipeUp`, `swipeDown`, `swipeLeft`, and `swipeRight`, the following details are provided under `event.detail`:
 
- | Description
+** | Description
 --- | ---
 start | The position of the initial touch
 direction | 'up', 'down', 'left' or 'right'
