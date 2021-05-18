@@ -3,4 +3,4 @@ This project is showcasing how to apply an event factory to a Svelte-component i
 
 [Swipeable on Netlify](https://swipeable.netlify.app/)
 
-![Screenshot from Swipeable Mobile app](./screenshots/screenshot1small.PNG)
+![Screenshot from Swipeable Mobile app](./screenshots/screenshot1small.png)
