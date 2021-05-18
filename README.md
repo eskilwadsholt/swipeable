@@ -4,12 +4,14 @@ This project is showcasing how to apply an event factory to a Svelte-component i
 ## Demo
 Here is a screenshot. Click image to see live demo on netlify.
 
-<a href="https://swipeable.netlify.app/" align="center">
+<p align="center">
+<a href="https://swipeable.netlify.app/">
     <figure>
         <img src="./screenshots/screenshot1small.png" alt="Screenshot from Swipeable Mobile app">
         <figcaption>Screenshot of demo</figcaption>
     </figure>
 </a>
+</p>
 
 
   
